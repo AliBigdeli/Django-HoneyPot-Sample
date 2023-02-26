@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  db:
+    container_name: db
+    image: postgres:alpine
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGDB_VENDOR=postgres
+      - PGDATA=/var/lib/postgresql/data
+    restart: always
+
+  backend:
+    build:
+      context: .
+    container_name: backend
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./core:/usr/src/app
+    ports:
+      - "8000:8000"
+    environment:
+      - SECRET_KEY=test
+      - DEBUG=True
+      - SHOW_DEBUGGER_TOOLBAR=True
+    restart: always
+
