@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en-us" dir="ltr">
+
+<head>
+  <title>Log in | Django site admin</title>
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{% static 'honeypot/css/base.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'honeypot/css/login.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'honeypot/css/responsive.css' %}">
+  <meta name="robots" content="NONE,NOARCHIVE">
+</head>
+
+
+<body class="login" data-admin-utc-offset="14400">
+
+  <!-- Container -->
+  <div id="container">
+
+
+    <!-- Header -->
+    <div id="header">
+      <div id="branding">
+
+        <h1 id="site-name"><a href="/admin/">Django administration</a></h1>
+
+      </div>
+
+
+    </div>
+    <!-- END Header -->
+    <div class="main shifted" id="main">
+      <div class="content">
+        <!-- Content -->
+        <div id="content" class="colM">
+          {% if messages %}
+          {% for message in messages %}          
+          <p class="errornote">
+            {{message}}
+          </p>
+          {% endfor %}
+          {% endif %}
+          
+
+          <div id="content-main">
+            <form action="/admin/login/" method="post" id="login-form">
+              {% csrf_token %}
+              <div class="form-row">
+
+                <label class="required" for="id_username">Email address:</label> <input type="email" name="username"
+                  autofocus autocapitalize="none" autocomplete="username" maxlength="254" required id="id_username" required>
+              </div>
+              <div class="form-row">
+
+                <label class="required" for="id_password">Password:</label> <input type="password" name="password"
+                  autocomplete="current-password" required id="id_password" required>
+                <input type="hidden" name="next" value="/admin/">
+              </div>
+
+              <div class="submit-row">
+                <input type="submit" value="Log in">
+              </div>
+            </form>
+
+          </div>
+
+          <br class="clear">
+        </div>
+        <!-- END Content -->
+        <div id="footer"></div>
+      </div>
+    </div>
+  </div>
+  <!-- END Container -->
+</body>
+
+</html>

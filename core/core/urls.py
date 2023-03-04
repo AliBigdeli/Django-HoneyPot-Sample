@@ -37,7 +37,8 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("admin/", include("honeypot.urls")),
+    path("secret-admin-entrance/", admin.site.urls),
     path("", include("website.urls")),
 ]
 
