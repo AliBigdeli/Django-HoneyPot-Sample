@@ -1,5 +1,5 @@
 <div align="center">
-<img loading="lazy" style="width:700px" src="./docs/banner.jpg">
+<img loading="lazy" style="width:700px" src="./docs/banner.png">
 <h1 align="center">Django HoneyPot Sample</h1>
 <h3 align="center">Sample Project to show you how to implement HoneyPot to django admin</h3>
 </div>
@@ -14,17 +14,38 @@
 # Guideline
 - [Guideline](#guideline)
 - [Goal](#goal)
+- [What is HoneyPot](#what-is-honeypot)
+- [How honeypots work](#how-honeypots-work)
 - [Development usage](#development-usage)
   - [Clone the repo](#clone-the-repo)
   - [Enviroment Varibales](#enviroment-varibales)
   - [Build everything](#build-everything)
-  - [Note](#note)
+- [Testing](#testing)
+- [Got Stuck](#got-stuck)
+- [Note](#note)
   - [Check it out in a browser](#check-it-out-in-a-browser)
 - [License](#license)
 - [Bugs](#bugs)
 
 # Goal
-This project main goal is to provide a sample to show you how to implement multiple file uploading with django form and api.
+This project main goal is to provide a sample to show you how to implement HoneyPot theory in django.
+
+# What is HoneyPot
+
+<div align="center">
+<img loading="lazy" style="width:700px" src="./docs/honey-pot.jpg">
+</div>
+One honeypot definition comes from the world of espionage, where Mata Hari-style spies who use a romantic relationship as a way to steal secrets are described as setting a ‘honey trap’ or ‘honeypot’. Often, an enemy spy is compromised by a honey trap and then forced to hand over everything he/she knows.
+
+In computer security terms, a cyber honeypot works in a similar way, baiting a trap for hackers. It's a sacrificial computer system that’s intended to attract cyberattacks, like a decoy. It mimics a target for hackers, and uses their intrusion attempts to gain information about cybercriminals and the way they are operating or to distract them from other targets.
+
+
+# How honeypots work
+<div align="center">
+<img loading="lazy" style="width:700px" src="./docs/honey-pot-usage.jpg">
+</div>
+The honeypot looks like a real computer system, with applications and data, fooling cybercriminals into thinking it's a legitimate target. For example, in our case it would be the admin page. Once the hackers are in, they can be tracked, and their behavior assessed for clues on how to make the real network more secure.
+
 
 # Development usage
 You'll need to have [Docker installed](https://docs.docker.com/get-docker/).
@@ -72,7 +93,50 @@ docker compose up --build
 Now that everything is built and running we can treat it like any other Django
 app.
 
-## Note
+# Testing 
+in order to test the mechanism just head to the admin page (the fake one) which is available through the url bellow:
+
+- <http://127.0.0.1:8000/admin/login>
+
+as you can see in the url file of project we have two admin pages:
+```python
+
+urlpatterns = [
+    path("admin/", include("honeypot.urls")),
+    path("secret-admin-entrance/", admin.site.urls),
+    ...
+]
+```
+the one which leads to honeypot is fake and the other one is ok.
+
+this page is identical to the admin page but the difference is, no matter how many times you try, you cant login from here. attackers will try to hit the url of admin and using username and passwords to brute force to the admin  page but, they cant cause it will lead to nothing and after a few times trying to test password it will lead to being blocked.
+<div align="center">
+<img loading="lazy" style="width:700px" src="./docs/demo.gif">
+</div>
+
+
+and user with the previous ip address cannot use the whole website.
+
+**Note:** this is just a sample and you can change it according to your needs.
+
+
+# Got Stuck
+im pretty sure in your first test you will be locked out and you want to go back, so in order to do that just follow the instructions bellow and remove your ip address from blacklists.
+
+```shell
+docker-compose exec backend sh -c "python manage.py shell" 
+
+Python 3.10.10 (main, Mar  1 2023, 15:41:47) [GCC 8.3.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+
+>>> from honeypot.models import BlackList
+
+>>> BlackList.objects.all().delete()
+(1, {'honeypot.BlackList': 1})
+
+```
+# Note
 
 If you receive an error about a port being in use? Chances are it's because
 something on your machine is already running on port 8000. then you have to change the docker-compose.yml file according to your needs.
