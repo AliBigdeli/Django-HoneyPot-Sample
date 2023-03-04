@@ -15,6 +15,7 @@ class HoneyPotMiddleware(MiddlewareMixin):
         self.client_ip = self.get_client_ip(request) 
         if BlackList.objects.filter(ip_address=self.client_ip).exists():
             return HttpResponseForbidden("You are not allowed to call the website anymore. YOU ARE BANNED!")
+            
         
         
     def get_client_ip(self,request):
