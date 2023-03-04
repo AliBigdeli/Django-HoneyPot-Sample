@@ -62,7 +62,7 @@ these commands for PowerShell if you want.
 ## Clone the repo
 Clone this repo anywhere you want and move into the directory:
 ```bash
-git clone https://github.com/AliBigdeli/Django-Multiple-File-Upload-Sample.git
+git clone https://github.com/AliBigdeli/Django-HoneyPot-Sample.git
 ```
 
 ## Enviroment Varibales
