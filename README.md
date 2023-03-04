@@ -119,6 +119,11 @@ and user with the previous ip address cannot use the whole website.
 
 **Note:** this is just a sample and you can change it according to your needs.
 
+you can always change the amount of tryout in the settings by changing the value of the ```HONEYPOT_LOGIN_TRYOUT```
+
+```python
+HONEYPOT_LOGIN_TRYOUT = 5
+```
 
 # Got Stuck
 im pretty sure in your first test you will be locked out and you want to go back, so in order to do that just follow the instructions bellow and remove your ip address from blacklists.
